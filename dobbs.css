@@ -1,3 +1,21 @@
 body {
 	font-family: 'Pixelify Sans', cursive;
+	height: 100%;
+}
+
+.home-page-button {
+	font-size: 64px;
+}
+
+#helpButton {
+	width: 116px;
+	height: 116px;
+	border-radius: 50%;
+	border-width: 4px;
+	box-sizing: border-box;
+}
+
+#homepage-button-grid {
+	margin-top: 200px;
+	margin-bottom: 200px;
 }
