@@ -5,6 +5,7 @@ body {
 
 .home-page-button {
 	font-size: 64px;
+	color: rgb(255, 255, 255);
 }
 
 #helpButton {
@@ -18,4 +19,11 @@ body {
 #homepage-button-grid {
 	margin-top: 200px;
 	margin-bottom: 200px;
+}
+
+#p5-canvas-homepage-div {
+	z-index: -21;
+	position: absolute;
+	top: 0;
+	left: 0;
 }
