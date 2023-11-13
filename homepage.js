@@ -1,7 +1,7 @@
 let emojiFont;
 let pixelFont;
 let emojiList = ["🫠","🎃","🔥","❤️‍🔥","👻","🍰","🌈","🍓","🥥","🫥","💩","❤️","☠️","😈","🤡","💥","🦠","🧠","🫧","💧","❄️","🍔","🥞","🎲","🎨","🎄","🏈","⚽","🏀","👺","🍄","🥑","🧀","🫖","🎄","📸","🎮","🎸","🎧","👑","💸","💽","💰","📈","💎","💡","⚖️","🎯","🪩","🧊","🥭","🐮","🌸","🪷","🏵️","👹","🌝","🌚","👾","🤑","💘"];
-let emojiObject;
+let emojiObjectList = [];
 function preload() {
 	emojiFont = loadFont('NotoEmoji-VariableFont_wght.ttf');
 	pixelFont = loadFont('PixelifySans-VariableFont_wght.ttf');
@@ -9,23 +9,38 @@ function preload() {
 function setup() {
 	let homepageCanvas = createCanvas(windowWidth, windowHeight);
 	homepageCanvas.parent("#p5-canvas-homepage-div");
-	emojiObject = new Emoji("😀 😃 😄 😁 😆 😅 😂 🤣 ☺️ 😊 😇 🙂 🙃 😉 😌 😍 😘 😗 😙 😚 😋 😜 😝 😛 🤑 🤗 🤓 😎 🤡 🤠 😏 😒 😞 😔 😟 😕 🙁 ☹️ 😣 😖 😫 😩 😤 😠 😡 😶 😐 😑 😯 😦 😧 😮 😲 😵 😳 😱 😨 😰 😢 😥 🤤 😭 😓 😪 😴 🙄 🤔 🤥 😬 🤐 🤢 🤧 😷 🤒 🤕 😈 👿 👹 👺 💩 👻 💀 ☠️ 👽 👾 🤖 🎃 😺 😸 😹 😻 😼 😽 🙀 😿 😾 👐 🙌 👏 🙏 🤝 👍 👎 👊 ✊ 🤛 🤜 🤞 ✌️ 🤘 👌 👈 👉 👆 👇 ☝️ ✋ 🤚 🖐");
+	emojiList = shuffle(emojiList);
+	for (let i = 0; i < 15; i++) {
+		emojiObjectList.push(new Emoji(emojiList[i]));
+	}
 }
 function draw() {
 	background(0, 0, 0);
-	emojiObject.show();
+	emojiObjectList.forEach((emojiObject) => {
+		emojiObject.move();
+		emojiObject.show();
+	});
 }
 function randomInt(min, max) {
 	return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function shuffle(array) {
+	let currentIndex = array.length;
+	while (currentIndex > 0) {
+		randomIndex = Math.floor(Math.random()*currentIndex);
+		curentIndex--;
+		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+	}
+	return array;
 }
 class Emoji {
 	constructor(emojiSymbol){
 		this.emojiText = emojiSymbol;
 		this.size = randomInt(50,400);
 		this.angle = radians(randomInt(0,360));
-		this.rotationSpeed = randomInt(2, 10)*0.01;
-		this.x = randomInt(0, windowWidth);
-		this.y = randomInt(0, windowHeight);
+		this.rotationSpeed = randomInt(-50, 50)*0.001;
+		this.x = randomInt(Math.ceil(0 + this.size/2), Math.floor(windowWidth-this.size/2));
+		this.y = randomInt(Math.ceil(0 + this.size/2), Math.floor(windowHeight-this.size/2));
 		this.speedX = randomInt(2, 10);
 		this.speedY = randomInt(2, 10);
 		this.dirX = randomInt(1, 2);
@@ -45,7 +60,19 @@ class Emoji {
 		textFont(emojiFont);
 		textSize(this.size);
 		fill (this.color);
+		textAlign(CENTER, CENTER);
 		text(this.emojiText, 0, 0);
 		pop();
+	}
+	move() {
+		this.angle += this.rotationSpeed;
+		if (this.x < (0 + this.size/2) || this.x > (windowWidth - this.size/2)) {
+			this.dirX*=-1;
+		}
+		this.x += this.speedX*this.dirX;
+		if (this.y < (0 + this.size/2) || this.y > (windowHeight - this.size/2)) {
+			this.dirY*=-1;
+		}
+		this.y += this.speedY*this.dirY;
 	}
 }
