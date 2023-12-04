@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
+    <title>Dobbs</title>
     <link href="bootstrap-5.3.2-dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,11 +14,49 @@
     <main>
       <div class = "d-grid gap-5 col-6 mx-auto" id = "homepage-button-grid">
         <button type="button" class="btn btn-warning home-page-button" id="playGameButton">Let's Find Them!</button>
-        <button type="button" class="btn btn-warning home-page-button" id="difficultyButton">Select Difficulty!</button>
-        <button type="button" class="btn btn-outline-warning home-page-button mx-auto" id="helpButton">?</button>
+        <button type="button" class="btn btn-warning home-page-button" id="difficultyButton" data-bs-toggle="modal" data-bs-target="#difficultyModal">Select Difficulty!</button>
+        <button type="button" class="btn btn-outline-warning home-page-button mx-auto" id="helpButton" data-bs-toggle="modal" data-bs-target="#helpModal">?</button>
       </div>
       <div id = "p5-canvas-homepage-div"></div>
     </main>
+    <!-- Modal -->
+    <div class="modal fade" id="helpModal" tabindex="-1" aria-labelledby="helpModalLabel" aria-hidden="true" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-3 help-modal-title" id="helpModalLabel">Instructions</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body help-modal-body">
+            Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning">Play Game</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="difficultyModal" tabindex="-1" aria-labelledby="difficultyModalLabel" aria-hidden="true" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-3 help-modal-title" id="difficultyModalLabel">Difficulty</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body help-modal-body">
+            <p>Please select a difficulty: </p>
+            <button type="button" class="btn btn-outline-warning">Easy</button>
+            <button type="button" class="btn btn-warning">Medium</button>
+            <button type="button" class="btn btn-outline-warning">Hard</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning">Play Game</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="bootstrap-5.3.2-dist/js/bootstrap.bundle.min.js"></script>
     <script src="p5.min.js"></script>
     <script src="homepage.js"></script>

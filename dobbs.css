@@ -27,3 +27,11 @@ body {
 	top: 0;
 	left: 0;
 }
+
+.help-modal-title {
+	color: white;
+}
+
+.help-modal-body {
+	color: white;
+}
