@@ -10,7 +10,7 @@ function setup() {
 	let homepageCanvas = createCanvas(windowWidth, windowHeight);
 	homepageCanvas.parent("#p5-canvas-homepage-div");
 	emojiList = shuffle(emojiList);
-	for (let i = 0; i < 15; i++) {
+	for (let i = 0; i < 8; i++) {
 		emojiObjectList.push(new Emoji(emojiList[i]));
 	}
 }
@@ -36,13 +36,13 @@ function shuffle(array) {
 class Emoji {
 	constructor(emojiSymbol){
 		this.emojiText = emojiSymbol;
-		this.size = randomInt(50,400);
+		this.size = randomInt(250,350);
 		this.angle = radians(randomInt(0,360));
 		this.rotationSpeed = randomInt(-50, 50)*0.001;
 		this.x = randomInt(Math.ceil(0 + this.size/2), Math.floor(windowWidth-this.size/2));
 		this.y = randomInt(Math.ceil(0 + this.size/2), Math.floor(windowHeight-this.size/2));
-		this.speedX = randomInt(2, 10);
-		this.speedY = randomInt(2, 10);
+		this.speedX = randomInt(1, 4);
+		this.speedY = randomInt(1, 4);
 		this.dirX = randomInt(1, 2);
 		if (this.dirX == 2) {
 			this.dirX = -1;
