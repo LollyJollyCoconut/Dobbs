@@ -2,6 +2,36 @@ let emojiFont;
 let pixelFont;
 let emojiList = ["🫠","🎃","🔥","❤️‍🔥","👻","🍰","🌈","🍓","🥥","🫥","💩","❤️","☠️","😈","🤡","💥","🦠","🧠","🫧","💧","❄️","🍔","🥞","🎲","🎨","🎄","🏈","⚽","🏀","👺","🍄","🥑","🧀","🫖","🎄","📸","🎮","🎸","🎧","👑","💸","💽","💰","📈","💎","💡","⚖️","🎯","🪩","🧊","🥭","🐮","🌸","🪷","🏵️","👹","🌝","🌚","👾","🤑","💘"];
 let emojiObjectList = [];
+let easyButton = document.querySelector(".ez");
+let mediumButton = document.querySelector(".mid");
+let hardButton = document.querySelector(".sweat");
+easyButton.addEventListener("click", function(event) {
+	localStorage.setItem("difficultyLevel", "easy");
+	mediumButton.classList.remove("btn-warning");
+	mediumButton.classList.add("btn-outline-warning");
+	hardButton.classList.remove("btn-warning");
+	hardButton.classList.add("btn-outline-warning");
+	easyButton.classList.remove("btn-outline-warning");
+	easyButton.classList.add("btn-warning");
+});
+mediumButton.addEventListener("click", function(event) {
+	localStorage.setItem("difficultyLevel", "medium");
+	mediumButton.classList.remove("btn-outline-warning");
+	mediumButton.classList.add("btn-warning");
+	hardButton.classList.remove("btn-warning");
+	hardButton.classList.add("btn-outline-warning");
+	easyButton.classList.remove("btn-warning");
+	easyButton.classList.add("btn-outline-warning");
+});
+hardButton.addEventListener("click", function(event) {
+	localStorage.setItem("difficultyLevel", "hard");
+	mediumButton.classList.remove("btn-warning");
+	mediumButton.classList.add("btn-outline-warning");
+	hardButton.classList.remove("btn-outline-warning");
+	hardButton.classList.add("btn-warning");
+	easyButton.classList.remove("btn-warning");
+	easyButton.classList.add("btn-outline-warning");
+});
 function preload() {
 	emojiFont = loadFont('NotoEmoji-VariableFont_wght.ttf');
 	pixelFont = loadFont('PixelifySans-VariableFont_wght.ttf');
@@ -13,6 +43,7 @@ function setup() {
 	for (let i = 0; i < 8; i++) {
 		emojiObjectList.push(new Emoji(emojiList[i]));
 	}
+	localStorage.setItem("difficultyLevel", "medium");
 }
 function draw() {
 	background(0, 0, 0);
