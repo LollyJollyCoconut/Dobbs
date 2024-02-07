@@ -1,7 +1,21 @@
 let easyButton = document.querySelector(".ez");
 let mediumButton = document.querySelector(".mid");
 let hardButton = document.querySelector(".sweat");
+easyButton.addEventListener("click", function(event){
+	localStorage.setItem("difficultyLevel","easy");
+	showEasyLevel();
+});
+mediumButton.addEventListener("click", function(event){
+	localStorage.setItem("difficultyLevel", "medium");
+	showMediumLevel();
+});
+hardButton.addEventListener("click", function(event) {
+	localStorage.setItem("difficultyLevel", "hard");
+	showHardLevel();
+})
 function setup() {
+	// let gameCanvas = createCanvas(windowWidth, windowHeight-105);
+	// gameCanvas.parent("#p5-canvas-homepage-div");
 	if (localStorage.getItem("difficultyLevel") == "easy") {
 		showEasyLevel();
 	}
@@ -15,6 +29,9 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
+}
+function draw() {
+	background(255);
 }
 function showEasyLevel() {
 	mediumButton.classList.remove("btn-warning");

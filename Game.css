@@ -23,9 +23,11 @@ body {
 
 #p5-canvas-homepage-div {
 	z-index: -21;
-	position: absolute;
+	flex-direction: row;
+	justify-content: space-evenly;
+/*	position: absolute;
 	top: 0;
-	left: 0;
+	left: 0;*/
 }
 
 .help-modal-title {
@@ -39,4 +41,22 @@ body {
 .score, .timer {
 	color: white;
 	font-size: 32px;
+}
+
+.card {
+	background-color: #ffc107;
+	height: 80vh;
+	width: 45vw;
+	border-radius: 100%;
+	position: relative;
+}
+
+.card-button {
+	position: absolute;
+	top: 30%;
+	left:70%;
+	font-size: 100px;
+	background-color: red;
+	border-radius: 100%;
+	padding: 0;
 }
