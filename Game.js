@@ -18,8 +18,7 @@ hardButton.addEventListener("click", function(event) {
 	showHardLevel();
 })
 function setup() {
-	// let gameCanvas = createCanvas(windowWidth, windowHeight-105);
-	// gameCanvas.parent("#p5-canvas-homepage-div");
+	noCanvas();
 	if (localStorage.getItem("difficultyLevel") == "easy") {
 		showEasyLevel();
 	}
@@ -95,5 +94,38 @@ function buildCardDeck(planeOrder) {
 			}
 			cardDeck.push(currentCard);
 		}
+	}
+}
+class emojiButton() {
+	constructor(emojiSymbol, parent) {
+		this.text = emojiSymbol;
+		this.fontSize = randomInt(50, 150);
+		this.topPos = randomInt(7, 80);
+		this.leftPos = randomInt(7 ,80);
+		this.rotationAngle = randomInt(0, 360);
+		this.parentElement = parent;
+		this.button = "";
+	}
+	createButton() {
+		this.button = document.createElement("button");
+		this.button.textContent = this.text;
+		this.button.style.fontSize = `${this.fontSize}px`;
+		this.button.style.position = "absolute";
+		this.button.style.left = `${this.leftPos}%`;
+		this.button.style.top = `${this.topPos}%`;
+		this.button.style.transform = `rotate(${this.rotationAngle}deg)`;
+		this.button.style.backgroundColor = "transparent";
+		this.button.style.borderRadius = "100%";
+		this.button.style.padding = "0";
+		this.button.classList.add = "btn";
+		this.button.classList.add = "btn-warning-outline";
+		this.button.type = "button";
+		this.parentElement.appendChild(this.button);
+		this.button.addEventListener("click", function(event) {
+			console.log(this.text);
+		});
+	}
+	changeText(newText) {
+		this.button.textContent = newText;
 	}
 }
