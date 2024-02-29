@@ -1,3 +1,4 @@
+let emojiList = ["🫠","🎃","🔥","❤️‍🔥","👻","🍰","🌈","🍓","🥥","🫥","💩","❤️","☠️","😈","🤡","💥","🦠","🧠","🫧","❄️","🍔","🥞","🎲","🎨","🏈","⚽","🏀","👺","🥑","🧀","🫖","🎄","📸","🎮","🎸","🎧","👑","💸","💽","💰","📈","💎","💡","⚖️","🎯","🪩","🧊","🥭","🐮","🪷","👹","🌝","🌚","👾","🤑","💘", "🍉", "🫐", "🍕", "🥮", "🧋", "🩼", "🚲", "🗿", "🗽", "🎪", "🧡", "💛", "💚", "💙", "💜", "🤎", "🖤", "🤍", "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "🟤", "⚫", "⚪", "🟥", "🟧", "🟨", "🟩", "🟦", "🟪", "🟫", "⬛", "⬜", "♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "⛎", "♀️", "♂️", "🍆", "🐖", "🐑", "🐐", "💧", "🌺", "🏵️", "🌸", "🌻", "🌼", "🍄", "💀", "💪", "🦿", "🦾", "🦥", "🐆", "🦧", "🦍", "🐔", "🦅", "🏉", "🥎", "⚾", "🎾", "🥅", "🛹", "🥋", "🥇", "🥈", "🥉", "🏅", "🎖️", "🏆", "🎙️", "📻", "📺", "📼", "📹", "📽️", "🎥", "🎞️", "🎬", "🃏", "🀄", "🎰"];
 let easyButton = document.querySelector(".ez");
 let mediumButton = document.querySelector(".mid");
 let hardButton = document.querySelector(".sweat");
@@ -5,6 +6,8 @@ let orderOfPlane = 6;
 let numOfSymbolsOnOneCard = orderOfPlane + 1;
 let cardDeck = [];
 let currentCard = [];
+let card1Div = document.querySelector("#card1");
+let card2Div = document.querySelector("#card2");
 easyButton.addEventListener("click", function(event){
 	localStorage.setItem("difficultyLevel","easy");
 	showEasyLevel();
@@ -32,9 +35,20 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
+	let firstButton = new EmojiButton("🔥", card1Div);
+	firstButton.createButton();
 }
 function draw() {
 	background(255);
+}
+function shuffle(array) {
+	let currentIndex = array.length;
+	while (currentIndex > 0) {
+		randomIndex = Math.floor(Math.random()*currentIndex);
+		currentIndex--;
+		[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+	}
+	return array;
 }
 function showEasyLevel() {
 	orderOfPlane = 3;
@@ -96,7 +110,12 @@ function buildCardDeck(planeOrder) {
 		}
 	}
 }
-class emojiButton() {
+
+function randomInt(min, max) {
+	return Math.floor(Math.random()*(max - min + 1) + min);
+}
+
+class EmojiButton {
 	constructor(emojiSymbol, parent) {
 		this.text = emojiSymbol;
 		this.fontSize = randomInt(50, 150);
@@ -117,6 +136,7 @@ class emojiButton() {
 		this.button.style.backgroundColor = "transparent";
 		this.button.style.borderRadius = "100%";
 		this.button.style.padding = "0";
+		this.button.style.borderColor = "transparent";
 		this.button.classList.add = "btn";
 		this.button.classList.add = "btn-warning-outline";
 		this.button.type = "button";
@@ -124,6 +144,8 @@ class emojiButton() {
 		this.button.addEventListener("click", function(event) {
 			console.log(this.text);
 		});
+		console.log(this.button);
+		console.log(this.parentElement);
 	}
 	changeText(newText) {
 		this.button.textContent = newText;
