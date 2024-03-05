@@ -8,6 +8,7 @@ let cardDeck = [];
 let currentCard = [];
 let card1Div = document.querySelector("#card1");
 let card2Div = document.querySelector("#card2");
+let emojiCardDeck = [];
 easyButton.addEventListener("click", function(event){
 	localStorage.setItem("difficultyLevel","easy");
 	showEasyLevel();
@@ -35,8 +36,7 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
-	let firstButton = new EmojiButton("🔥", card1Div);
-	firstButton.createButton();
+	showEmojiCard(emojiCardDeck[0], card1Div);
 }
 function draw() {
 	background(255);
@@ -109,6 +109,16 @@ function buildCardDeck(planeOrder) {
 			cardDeck.push(currentCard);
 		}
 	}
+	let shuffledEmojiList = shuffle(emojiList);
+	cardDeck.forEach(function(card) {
+		let currentEmojiCard = [];
+		card.forEach(function(item) {
+			let emojiButton = new EmojiButton(shuffledEmojiList[item-1]);
+			currentEmojiCard.push(emojiButton);
+		});
+		emojiCardDeck.push(currentEmojiCard);
+	});
+	console.log(emojiCardDeck);
 }
 
 function randomInt(min, max) {
@@ -116,14 +126,15 @@ function randomInt(min, max) {
 }
 
 class EmojiButton {
-	constructor(emojiSymbol, parent) {
+	constructor(emojiSymbol) {
 		this.text = emojiSymbol;
 		this.fontSize = randomInt(50, 150);
 		this.topPos = randomInt(7, 80);
 		this.leftPos = randomInt(7 ,80);
 		this.rotationAngle = randomInt(0, 360);
-		this.parentElement = parent;
+		this.parentElement = null;
 		this.button = "";
+		this.createButton();
 	}
 	createButton() {
 		this.button = document.createElement("button");
@@ -140,14 +151,23 @@ class EmojiButton {
 		this.button.classList.add = "btn";
 		this.button.classList.add = "btn-warning-outline";
 		this.button.type = "button";
-		this.parentElement.appendChild(this.button);
 		this.button.addEventListener("click", function(event) {
 			console.log(this.text);
 		});
-		console.log(this.button);
-		console.log(this.parentElement);
 	}
 	changeText(newText) {
 		this.button.textContent = newText;
 	}
+	showButton(newParent) {
+		this.parentElement = newParent;
+		this.parentElement.appendChild(this.button);
+	}
+	hideButton() {
+		this.button.remove();
+	}
+}
+function showEmojiCard(cardList, cardParentDiv) {
+	cardList.forEach(function(button){
+		button.showButton(cardParentDiv);
+	});
 }
