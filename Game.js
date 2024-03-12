@@ -6,6 +6,12 @@ let orderOfPlane = 6;
 let numOfSymbolsOnOneCard = orderOfPlane + 1;
 let cardDeck = [];
 let currentCard = [];
+let gameTimer = 0;
+let card1List = [];
+let card2List = [];
+let currentCardIndex = 0;
+let maxGameTimer = 0;
+let matchingEmojiText = "";
 let card1Div = document.querySelector("#card1");
 let card2Div = document.querySelector("#card2");
 let emojiCardDeck = [];
@@ -36,7 +42,7 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
-	showEmojiCard(emojiCardDeck[0], card1Div);
+	startNewGame();
 }
 function draw() {
 	background(255);
@@ -170,4 +176,41 @@ function showEmojiCard(cardList, cardParentDiv) {
 	cardList.forEach(function(button){
 		button.showButton(cardParentDiv);
 	});
+}
+function calculateMaxGameTime(planeOrder) {
+	numOfCards = planeOrder*planeOrder + planeOrder + 1;
+	if(localStorage.getItem("difficultyLevel") == "easy") {
+		maxGameTimer = numOfCards * 20000;
+	}
+	else if (localStorage.getItem("difficultyLevel") == "medium") {
+		maxGameTimer = numOfCards * 12000;
+	}
+	else if (localStorage.getItem("difficultyLevel") == "hard") {
+		maxGameTimer = numOfCards * 4000;
+	}
+}
+function findMatchingEmojiButton(card1, card2) {
+	matchingEmojiText = "";
+	card1.forEach(function(item1) {
+		card2.forEach(function(item2) {
+			if (item1.text == item2.text) {
+				matchingEmojiText = item1.text;
+				console.log(matchingEmojiText);
+			}
+		});
+	});
+	if (matchingEmojiText == "") {
+		matchingEmojiText = "impossible";
+		console.log("No match found");
+	}
+}
+function startNewGame() {
+	buildCardDeck(orderOfPlane);
+	emojiCardDeck = shuffle(emojiCardDeck);
+	currentCardIndex = 0;
+	card1List = emojiCardDeck[currentCardIndex];
+	showEmojiCard(card1List, card1Div);
+	currentCardIndex += 1;
+	card2List = emojiCardDeck[currentCardIndex];
+	showEmojiCard(card2List, card2Div);
 }
