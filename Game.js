@@ -15,6 +15,8 @@ let matchingEmojiText = "";
 let card1Div = document.querySelector("#card1");
 let card2Div = document.querySelector("#card2");
 let emojiCardDeck = [];
+let timerSpan = document.querySelector("#timer");
+
 easyButton.addEventListener("click", function(event){
 	localStorage.setItem("difficultyLevel","easy");
 	showEasyLevel();
@@ -58,8 +60,6 @@ function shuffle(array) {
 }
 function showEasyLevel() {
 	orderOfPlane = 3;
-	buildCardDeck(orderOfPlane);
-	console.log(cardDeck);
 	mediumButton.classList.remove("btn-warning");
 	mediumButton.classList.add("btn-outline-warning");
 	hardButton.classList.remove("btn-warning");
@@ -69,8 +69,6 @@ function showEasyLevel() {
 }
 function showMediumLevel() {
 	orderOfPlane = 6;
-	buildCardDeck(orderOfPlane);
-	console.log(cardDeck);
 	mediumButton.classList.remove("btn-outline-warning");
 	mediumButton.classList.add("btn-warning");
 	hardButton.classList.remove("btn-warning");
@@ -80,8 +78,6 @@ function showMediumLevel() {
 }
 function showHardLevel() {
 	orderOfPlane = 11;
-	buildCardDeck(orderOfPlane);
-	console.log(cardDeck);
 	mediumButton.classList.remove("btn-warning");
 	mediumButton.classList.add("btn-outline-warning");
 	hardButton.classList.remove("btn-outline-warning");
@@ -135,8 +131,8 @@ class EmojiButton {
 	constructor(emojiSymbol) {
 		this.text = emojiSymbol;
 		this.fontSize = randomInt(50, 150);
-		this.topPos = randomInt(7, 80);
-		this.leftPos = randomInt(7 ,80);
+		this.topPos = randomInt(20, 70);
+		this.leftPos = randomInt(20 ,70);
 		this.rotationAngle = randomInt(0, 360);
 		this.parentElement = null;
 		this.button = "";
@@ -180,13 +176,13 @@ function showEmojiCard(cardList, cardParentDiv) {
 function calculateMaxGameTime(planeOrder) {
 	numOfCards = planeOrder*planeOrder + planeOrder + 1;
 	if(localStorage.getItem("difficultyLevel") == "easy") {
-		maxGameTimer = numOfCards * 20000;
+		maxGameTimer = numOfCards * 20;
 	}
 	else if (localStorage.getItem("difficultyLevel") == "medium") {
-		maxGameTimer = numOfCards * 12000;
+		maxGameTimer = numOfCards * 12;
 	}
 	else if (localStorage.getItem("difficultyLevel") == "hard") {
-		maxGameTimer = numOfCards * 4000;
+		maxGameTimer = numOfCards * 4;
 	}
 }
 function findMatchingEmojiButton(card1, card2) {
@@ -213,4 +209,16 @@ function startNewGame() {
 	currentCardIndex += 1;
 	card2List = emojiCardDeck[currentCardIndex];
 	showEmojiCard(card2List, card2Div);
+	calculateMaxGameTime(orderOfPlane);
+	gameTimer = maxGameTimer;
+	timerSpan.innerText = gameTimer;
+	findMatchingEmojiButton(card1List, card2List);
+	while(gameTimer > 0) {
+		setTimeout(() => {
+			gameTimer -= 1;
+			timerSpan.innerText = gameTimer;
+			console.log(gameTimer);
+		}, "1000");
+
+	}
 }
