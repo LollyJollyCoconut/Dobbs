@@ -16,6 +16,10 @@ let card1Div = document.querySelector("#card1");
 let card2Div = document.querySelector("#card2");
 let emojiCardDeck = [];
 let timerSpan = document.querySelector("#timer");
+let gameTimerIntervalID;
+let isGameOver;
+let numOfCardsRemaining;
+let difficultyModal = document.querySelector("#difficultyModal");
 
 easyButton.addEventListener("click", function(event){
 	localStorage.setItem("difficultyLevel","easy");
@@ -44,10 +48,21 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
-	startNewGame();
+	let difficultyModalObject = new bootstrap.Modal(difficultyModal);
+	difficultyModalObject.show();
 }
 function draw() {
-	background(255);
+	if (isGameOver == false) {
+		console.log("hi");
+		if (gameTimer <= 0) {
+			isGameOver == true;
+			stopDecrementingGameTimer();
+		}
+		if (numOfCardsRemaining <= 0) {
+			isGameOver = true;
+			stopDecrementingGameTimer();
+		}
+	}
 }
 function shuffle(array) {
 	let currentIndex = array.length;
@@ -203,6 +218,8 @@ function findMatchingEmojiButton(card1, card2) {
 function startNewGame() {
 	buildCardDeck(orderOfPlane);
 	emojiCardDeck = shuffle(emojiCardDeck);
+	numOfCardsRemaining = emojiCardDeck.length - 1;
+	console.log(numOfCardsRemaining);
 	currentCardIndex = 0;
 	card1List = emojiCardDeck[currentCardIndex];
 	showEmojiCard(card1List, card1Div);
@@ -213,12 +230,20 @@ function startNewGame() {
 	gameTimer = maxGameTimer;
 	timerSpan.innerText = gameTimer;
 	findMatchingEmojiButton(card1List, card2List);
-	while(gameTimer > 0) {
-		setTimeout(() => {
-			gameTimer -= 1;
-			timerSpan.innerText = gameTimer;
-			console.log(gameTimer);
-		}, "1000");
-
+	createGameTimerInterval();
+	isGameOver = false;
+}
+function createGameTimerInterval() {
+	if(!gameTimerIntervalID) {
+		gameTimerIntervalID = setInterval(decrementGameTimer, 1000);
 	}
+}
+function decrementGameTimer() {
+	gameTimer -= 1;
+	timerSpan.innerText = gameTimer;
+	console.log(gameTimer);
+}
+function stopDecrementingGameTimer() {
+	clearInterval(gameTimerIntervalID);
+	gameTimerIntervalID = null;
 }
