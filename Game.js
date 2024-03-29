@@ -20,6 +20,10 @@ let gameTimerIntervalID;
 let isGameOver;
 let numOfCardsRemaining;
 let difficultyModal = document.querySelector("#difficultyModal");
+let difficultyModalObject = new bootstrap.Modal(difficultyModal);
+let playButton = document.querySelector("#play-button");
+let scoreSpan = document.querySelector("#score");
+let score = 0;
 
 easyButton.addEventListener("click", function(event){
 	localStorage.setItem("difficultyLevel","easy");
@@ -32,7 +36,11 @@ mediumButton.addEventListener("click", function(event){
 hardButton.addEventListener("click", function(event) {
 	localStorage.setItem("difficultyLevel", "hard");
 	showHardLevel();
-})
+});
+playButton.addEventListener("click", function(event) {
+	difficultyModalObject.hide();
+	startNewGame();
+});
 function setup() {
 	noCanvas();
 	if (localStorage.getItem("difficultyLevel") == "easy") {
@@ -48,12 +56,10 @@ function setup() {
 		localStorage.setItem("difficultyLevel", "medium");
 		showMediumLevel();
 	}
-	let difficultyModalObject = new bootstrap.Modal(difficultyModal);
 	difficultyModalObject.show();
 }
 function draw() {
 	if (isGameOver == false) {
-		console.log("hi");
 		if (gameTimer <= 0) {
 			isGameOver == true;
 			stopDecrementingGameTimer();
@@ -81,6 +87,7 @@ function showEasyLevel() {
 	hardButton.classList.add("btn-outline-warning");
 	easyButton.classList.remove("btn-outline-warning");
 	easyButton.classList.add("btn-warning");
+	updateMaxGameTime();
 }
 function showMediumLevel() {
 	orderOfPlane = 6;
@@ -90,7 +97,8 @@ function showMediumLevel() {
 	hardButton.classList.add("btn-outline-warning");
 	easyButton.classList.remove("btn-warning");
 	easyButton.classList.add("btn-outline-warning");
-}
+	updateMaxGameTime();
+}	
 function showHardLevel() {
 	orderOfPlane = 11;
 	mediumButton.classList.remove("btn-warning");
@@ -99,6 +107,7 @@ function showHardLevel() {
 	hardButton.classList.add("btn-warning");
 	easyButton.classList.remove("btn-warning");
 	easyButton.classList.add("btn-outline-warning");
+	updateMaxGameTime();
 }
 function buildCardDeck(planeOrder) {
 	let numberOfSymbolsOnCard = planeOrder + 1;
@@ -169,7 +178,8 @@ class EmojiButton {
 		this.button.classList.add = "btn-warning-outline";
 		this.button.type = "button";
 		this.button.addEventListener("click", function(event) {
-			console.log(this.text);
+			doButtonsMatch(event.target.innerText);
+
 		});
 	}
 	changeText(newText) {
@@ -200,6 +210,11 @@ function calculateMaxGameTime(planeOrder) {
 		maxGameTimer = numOfCards * 4;
 	}
 }
+function updateMaxGameTime() {
+	calculateMaxGameTime(orderOfPlane);
+	gameTimer = maxGameTimer;
+	timerSpan.innerText = gameTimer;
+}
 function findMatchingEmojiButton(card1, card2) {
 	matchingEmojiText = "";
 	card1.forEach(function(item1) {
@@ -215,6 +230,9 @@ function findMatchingEmojiButton(card1, card2) {
 		console.log("No match found");
 	}
 }
+function updateScore(newScore) {
+	scoreSpan.innerText = newScore;
+}
 function startNewGame() {
 	buildCardDeck(orderOfPlane);
 	emojiCardDeck = shuffle(emojiCardDeck);
@@ -226,12 +244,40 @@ function startNewGame() {
 	currentCardIndex += 1;
 	card2List = emojiCardDeck[currentCardIndex];
 	showEmojiCard(card2List, card2Div);
-	calculateMaxGameTime(orderOfPlane);
-	gameTimer = maxGameTimer;
-	timerSpan.innerText = gameTimer;
+	updateMaxGameTime();
 	findMatchingEmojiButton(card1List, card2List);
 	createGameTimerInterval();
 	isGameOver = false;
+	score = 0;
+	updateScore(score);
+}
+function changeColorTwice(element, color) {
+	element.classList.add(color);
+	setTimeout(function() {
+		element.classList.remove(color);
+	}, 1000);
+}
+function doButtonsMatch(buttonText) {
+	if (buttonText == matchingEmojiText) {
+		console.log("correct match");
+		score += 5;
+		updateScore(score);
+		changeColorTwice(card1Div, "correct-match");
+		changeColorTwice(card2Div, "correct-match");
+		numOfCardsRemaining -= 1;
+		card1List.forEach(function(emojiButton) {
+			emojiButton.hideButton();
+		});
+		card2Div.forEach(function(emojiButton) {
+			emojiButton.hideButton();
+		});
+	} else {
+		console.log("wrong match");
+		score -= 2;
+		updateScore(score);
+		changeColorTwice(card1Div, "wrong-match");
+		changeColorTwice(card2Div, "wrong-match");
+	}
 }
 function createGameTimerInterval() {
 	if(!gameTimerIntervalID) {
@@ -241,7 +287,6 @@ function createGameTimerInterval() {
 function decrementGameTimer() {
 	gameTimer -= 1;
 	timerSpan.innerText = gameTimer;
-	console.log(gameTimer);
 }
 function stopDecrementingGameTimer() {
 	clearInterval(gameTimerIntervalID);

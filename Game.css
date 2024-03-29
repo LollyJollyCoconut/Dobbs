@@ -60,3 +60,13 @@ body {
 	border-radius: 100%;
 	padding: 0;
 }
+
+.correct-match {
+	background-color: #198754;
+	transition: background-color 1s;
+}
+
+.wrong-match {
+	background-color: #dc3545;
+	transition: background-color 1s;
+}

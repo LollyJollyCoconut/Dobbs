@@ -14,8 +14,8 @@
     <main>
       <div class = "d-flex col-12 justify-content-between align-items-baseline" id = "homepage-button-grid">
         <button type="button" class="btn btn-warning home-page-button" id="difficultyButton" data-bs-toggle="modal" data-bs-target="#difficultyModal">Select Difficulty!</button>
-        <p class = "score">Score: <span id = "score">71</span></p>
-        <p class = "timer">Timer: <span id = "timer">9000</span> seconds</p>
+        <p class = "score">Score: <span id = "score">0</span></p>
+        <p class = "timer">Timer: <span id = "timer"></span> seconds</p>
         <button type="button" class="btn btn-outline-warning home-page-button" id="helpButton" data-bs-toggle="modal" data-bs-target="#helpModal">?</button>
       </div>
       <div id = "p5-canvas-homepage-div" class = "d-flex">
@@ -57,7 +57,7 @@
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-warning">Play Game</button>
+            <button type="button" class="btn btn-warning" id = "play-button">Play Game</button>
           </div>
         </div>
       </div>
