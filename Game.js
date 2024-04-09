@@ -1,7 +1,7 @@
 let emojiList = ["🫠","🎃","🔥","❤️‍🔥","👻","🍰","🌈","🍓","🥥","🫥","💩","❤️","☠️","😈","🤡","💥","🦠","🧠","🫧","❄️","🍔","🥞","🎲","🎨","🏈","⚽","🏀","👺","🥑","🧀","🫖","🎄","📸","🎮","🎸","🎧","👑","💸","💽","💰","📈","💎","💡","⚖️","🎯","🪩","🧊","🥭","🐮","🪷","👹","🌝","🌚","👾","🤑","💘", "🍉", "🫐", "🍕", "🥮", "🧋", "🩼", "🚲", "🗿", "🗽", "🎪", "🧡", "💛", "💚", "💙", "💜", "🤎", "🖤", "🤍", "🔴", "🟠", "🟡", "🟢", "🔵", "🟣", "🟤", "⚫", "⚪", "🟥", "🟧", "🟨", "🟩", "🟦", "🟪", "🟫", "⬛", "⬜", "♈", "♉", "♊", "♋", "♌", "♍", "♎", "♏", "♐", "♑", "♒", "♓", "⛎", "♀️", "♂️", "🍆", "🐖", "🐑", "🐐", "💧", "🌺", "🏵️", "🌸", "🌻", "🌼", "🍄", "💀", "💪", "🦿", "🦾", "🦥", "🐆", "🦧", "🦍", "🐔", "🦅", "🏉", "🥎", "⚾", "🎾", "🥅", "🛹", "🥋", "🥇", "🥈", "🥉", "🏅", "🎖️", "🏆", "🎙️", "📻", "📺", "📼", "📹", "📽️", "🎥", "🎞️", "🎬", "🃏", "🀄", "🎰"];
-let easyButton = document.querySelector(".ez");
-let mediumButton = document.querySelector(".mid");
-let hardButton = document.querySelector(".sweat");
+let easyButtonList = document.querySelectorAll(".ez");
+let mediumButtonList = document.querySelectorAll(".mid");
+let hardButtonList = document.querySelectorAll(".sweat");
 let orderOfPlane = 6;
 let numOfSymbolsOnOneCard = orderOfPlane + 1;
 let cardDeck = [];
@@ -21,25 +21,38 @@ let isGameOver;
 let numOfCardsRemaining;
 let difficultyModal = document.querySelector("#difficultyModal");
 let difficultyModalObject = new bootstrap.Modal(difficultyModal);
-let playButton = document.querySelector("#play-button");
+let playButtonList = document.querySelectorAll("#play-button");
 let scoreSpan = document.querySelector("#score");
 let score = 0;
+let gameOverModal = document.querySelector("#endModal");
+let gameOverModalObject = new bootstrap.Modal(gameOverModal);
+let gameOverModalTitle = document.querySelector("#endModalLabel");
+let gameOverModalMessage = document.querySelector("#game-over-modal-message");
 
-easyButton.addEventListener("click", function(event){
-	localStorage.setItem("difficultyLevel","easy");
-	showEasyLevel();
+easyButtonList.forEach(function(easyButton) {
+	easyButton.addEventListener("click", function(event){
+		localStorage.setItem("difficultyLevel","easy");
+		showEasyLevel();
+	});
 });
-mediumButton.addEventListener("click", function(event){
-	localStorage.setItem("difficultyLevel", "medium");
-	showMediumLevel();
+mediumButtonList.forEach(function(mediumButton) {
+	mediumButton.addEventListener("click", function(event){
+		localStorage.setItem("difficultyLevel", "medium");
+		showMediumLevel();
+	});
 });
-hardButton.addEventListener("click", function(event) {
-	localStorage.setItem("difficultyLevel", "hard");
-	showHardLevel();
+hardButtonList.forEach(function(hardButton) {
+	hardButton.addEventListener("click", function(event) {
+		localStorage.setItem("difficultyLevel", "hard");
+		showHardLevel();
+	});
 });
-playButton.addEventListener("click", function(event) {
-	difficultyModalObject.hide();
-	startNewGame();
+playButtonList.forEach(function(playButton) {
+	playButton.addEventListener("click", function(event) {
+		difficultyModalObject.hide();
+		gameOverModalObject.hide();
+		startNewGame();
+	});
 });
 function setup() {
 	noCanvas();
@@ -63,10 +76,12 @@ function draw() {
 		if (gameTimer <= 0) {
 			isGameOver == true;
 			stopDecrementingGameTimer();
+			loseGame();
 		}
 		if (numOfCardsRemaining <= 0) {
 			isGameOver = true;
 			stopDecrementingGameTimer();
+			winGame();
 		}
 	}
 }
@@ -81,32 +96,50 @@ function shuffle(array) {
 }
 function showEasyLevel() {
 	orderOfPlane = 3;
-	mediumButton.classList.remove("btn-warning");
-	mediumButton.classList.add("btn-outline-warning");
-	hardButton.classList.remove("btn-warning");
-	hardButton.classList.add("btn-outline-warning");
-	easyButton.classList.remove("btn-outline-warning");
-	easyButton.classList.add("btn-warning");
+	mediumButtonList.forEach(function(mediumButton) {
+		mediumButton.classList.remove("btn-warning");
+		mediumButton.classList.add("btn-outline-warning");
+	});
+	hardButtonList.forEach(function(hardButton) {
+		hardButton.classList.remove("btn-warning");
+		hardButton.classList.add("btn-outline-warning");
+	});
+	easyButtonList.forEach(function(easyButton) {
+		easyButton.classList.remove("btn-outline-warning");
+		easyButton.classList.add("btn-warning");
+	});
 	updateMaxGameTime();
 }
 function showMediumLevel() {
 	orderOfPlane = 6;
-	mediumButton.classList.remove("btn-outline-warning");
-	mediumButton.classList.add("btn-warning");
-	hardButton.classList.remove("btn-warning");
-	hardButton.classList.add("btn-outline-warning");
-	easyButton.classList.remove("btn-warning");
-	easyButton.classList.add("btn-outline-warning");
+	mediumButtonList.forEach(function(mediumButton) {
+		mediumButton.classList.remove("btn-outline-warning");
+		mediumButton.classList.add("btn-warning");
+	});
+	hardButtonList.forEach(function(hardButton) {
+		hardButton.classList.remove("btn-warning");
+		hardButton.classList.add("btn-outline-warning");
+	});
+	easyButtonList.forEach(function(easyButton) {
+		easyButton.classList.remove("btn-warning");
+		easyButton.classList.add("btn-outline-warning");
+	});
 	updateMaxGameTime();
 }	
 function showHardLevel() {
 	orderOfPlane = 11;
-	mediumButton.classList.remove("btn-warning");
-	mediumButton.classList.add("btn-outline-warning");
-	hardButton.classList.remove("btn-outline-warning");
-	hardButton.classList.add("btn-warning");
-	easyButton.classList.remove("btn-warning");
-	easyButton.classList.add("btn-outline-warning");
+	mediumButtonList.forEach(function(mediumButton) {
+		mediumButton.classList.remove("btn-warning");
+		mediumButton.classList.add("btn-outline-warning");
+	});
+	hardButtonList.forEach(function(hardButton) {
+		hardButton.classList.remove("btn-outline-warning");
+		hardButton.classList.add("btn-warning");
+	});
+	easyButtonList.forEach(function(easyButton) {
+		easyButton.classList.remove("btn-warning");
+		easyButton.classList.add("btn-outline-warning");
+	});
 	updateMaxGameTime();
 }
 function buildCardDeck(planeOrder) {
@@ -178,7 +211,7 @@ class EmojiButton {
 		this.button.classList.add = "btn-warning-outline";
 		this.button.type = "button";
 		this.button.addEventListener("click", function(event) {
-			doButtonsMatch(event.target.innerText);
+			doButtonsMatch(event.target.innerText, event.target.parentNode.id);
 
 		});
 	}
@@ -189,7 +222,7 @@ class EmojiButton {
 		this.parentElement = newParent;
 		this.parentElement.appendChild(this.button);
 	}
-	hideButton() {
+	deleteButton() {
 		this.button.remove();
 	}
 }
@@ -201,13 +234,13 @@ function showEmojiCard(cardList, cardParentDiv) {
 function calculateMaxGameTime(planeOrder) {
 	numOfCards = planeOrder*planeOrder + planeOrder + 1;
 	if(localStorage.getItem("difficultyLevel") == "easy") {
-		maxGameTimer = numOfCards * 20;
+		maxGameTimer = numOfCards * 3;
 	}
 	else if (localStorage.getItem("difficultyLevel") == "medium") {
-		maxGameTimer = numOfCards * 12;
+		maxGameTimer = numOfCards * 3;
 	}
 	else if (localStorage.getItem("difficultyLevel") == "hard") {
-		maxGameTimer = numOfCards * 4;
+		maxGameTimer = numOfCards * 3;
 	}
 }
 function updateMaxGameTime() {
@@ -234,6 +267,12 @@ function updateScore(newScore) {
 	scoreSpan.innerText = newScore;
 }
 function startNewGame() {
+	card1List.forEach(function(button) {
+		button.deleteButton();
+	});
+	card2List.forEach(function(button) {
+		button.deleteButton();
+	});
 	buildCardDeck(orderOfPlane);
 	emojiCardDeck = shuffle(emojiCardDeck);
 	numOfCardsRemaining = emojiCardDeck.length - 1;
@@ -257,7 +296,16 @@ function changeColorTwice(element, color) {
 		element.classList.remove(color);
 	}, 1000);
 }
-function doButtonsMatch(buttonText) {
+function showNewCard(cardListToChange, cardParentToChange) {
+	cardListToChange.forEach(function(emojiButton) {
+		emojiButton.deleteButton();
+	});
+	cardListToChange = emojiCardDeck[currentCardIndex];
+	showEmojiCard(cardListToChange, cardParentToChange);
+	return cardListToChange;
+
+}
+function doButtonsMatch(buttonText, parentID) {
 	if (buttonText == matchingEmojiText) {
 		console.log("correct match");
 		score += 5;
@@ -265,12 +313,15 @@ function doButtonsMatch(buttonText) {
 		changeColorTwice(card1Div, "correct-match");
 		changeColorTwice(card2Div, "correct-match");
 		numOfCardsRemaining -= 1;
-		card1List.forEach(function(emojiButton) {
-			emojiButton.hideButton();
-		});
-		card2Div.forEach(function(emojiButton) {
-			emojiButton.hideButton();
-		});
+		currentCardIndex += 1;
+		if (numOfCardsRemaining > 0) {
+			if (parentID == "card1") {
+				card2List = showNewCard(card2List, card2Div);
+			} else {
+				card1List = showNewCard(card1List, card1Div);
+			}
+			findMatchingEmojiButton(card1List, card2List);
+		}
 	} else {
 		console.log("wrong match");
 		score -= 2;
@@ -291,4 +342,14 @@ function decrementGameTimer() {
 function stopDecrementingGameTimer() {
 	clearInterval(gameTimerIntervalID);
 	gameTimerIntervalID = null;
+}
+function winGame() {
+	gameOverModalTitle.innerText = "Yay! You Won!";
+	gameOverModalMessage.ineerText = "Would you like to play again? If so, consider trying a harder difficulty level: ";
+	gameOverModalObject.show();
+}
+function loseGame() {
+	gameOverModalTitle.innerText = "Oh no! The time ran out and you suck at this game! Better luck next time... My grandma can beat your score dawg. Womp womp.";
+	gameOverModalMessage.innerText = "Would you like to play again? If so, consider trying an easier difficulty level because clearly you absolute trash: ";
+	gameOverModalObject.show();
 }

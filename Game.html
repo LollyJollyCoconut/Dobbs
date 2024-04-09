@@ -33,7 +33,7 @@
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body help-modal-body">
-            Ahhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh
+            <p>Each card in the card has 1 and only 1 match with any other card in the card deck. To play this game, quickly find the match between each set of cards before the timer runs out. Good luck matching!</p>
           </div>
           <div class="modal-footer">
             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -51,6 +51,26 @@
           </div>
           <div class="modal-body help-modal-body">
             <p>Please select a difficulty: </p>
+            <button type="button" class="btn btn-outline-warning ez">Easy</button>
+            <button type="button" class="btn btn-warning mid">Medium</button>
+            <button type="button" class="btn btn-outline-warning sweat">Hard</button>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            <button type="button" class="btn btn-warning" id = "play-button">Play Game</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal fade" id="endModal" tabindex="-1" aria-labelledby="endModalLabel" aria-hidden="true" data-bs-theme="dark">
+      <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-3 help-modal-title" id="endModalLabel">Yay! You Won!</h1>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body help-modal-body">
+            <p id = "game-over-modal-message">Would you like to play again? If so, consider trying another difficukty level cause ur cracked: </p>
             <button type="button" class="btn btn-outline-warning ez">Easy</button>
             <button type="button" class="btn btn-warning mid">Medium</button>
             <button type="button" class="btn btn-outline-warning sweat">Hard</button>
